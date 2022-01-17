@@ -1,74 +1,136 @@
-module Retirement exposing (estimateRetirementAge)
+module Retirement exposing (Result, Year, simulate)
+
+import Model exposing (Model)
 
 
-estimateRetirementAge model =
-    if model.lifeExpectancy > model.currentAge then
-        estimateRetirementAgeStep model.currentAge model
-
-    else
-        0
+type alias Result =
+    { retirementAge : Int
+    , years : List Year
+    }
 
 
-estimateRetirementAgeStep retirementAge model =
-    if estimateSavingsAtDeath retirementAge model > 0 then
-        retirementAge
-
-    else
-        estimateRetirementAgeStep (retirementAge + 1) model
-
-
-estimateSavingsAtDeath retirementAge model =
-    if model.currentAge == model.lifeExpectancy then
-        model.currentSavings
-
-    else
-        estimateSavingsAtDeath retirementAge
-            { model
-                | currentAge = model.currentAge + 1
-                , currentSavings = updateSavings retirementAge model
-                , retirementIncome = updateRetirementIncome model
-            }
+type alias Year =
+    { age : Int
+    , endingBalance : Int
+    , deposits : Int
+    , withdrawals : Int
+    , ssaIncome : Int
+    , marketChange : Int
+    }
 
 
-updateSavings retirementAge model =
-    model.currentSavings
-        + yield model
-        + savings retirementAge model
-        + ssaIncome model
-        - withdrawals retirementAge model
+simulate : Model -> Maybe Result
+simulate model =
+    simulateWithRetirementAge model model.currentAge
 
 
-updateRetirementIncome model =
-    toFloat model.retirementIncome
-        * (1.0 + model.inflation)
-        |> round
+simulateWithRetirementAge : Model -> Int -> Maybe Result
+simulateWithRetirementAge model retirementAge =
+    let
+        years =
+            simulateYears model retirementAge (model.lifeExpectancy - model.currentAge + 1)
+    in
+    case List.head years of
+        Just lastYear ->
+            if lastYear.endingBalance >= 0 then
+                Just
+                    { retirementAge = retirementAge
+                    , years = List.reverse years
+                    }
+
+            else
+                simulateWithRetirementAge model (retirementAge + 1)
+
+        Nothing ->
+            Nothing
 
 
-yield model =
-    toFloat model.currentSavings
+simulateYears : Model -> Int -> Int -> List Year
+simulateYears model retirementAge numYears =
+    let
+        years =
+            if numYears <= 1 then
+                []
+
+            else
+                simulateYears model retirementAge (numYears - 1)
+    in
+    case List.head years of
+        Just lastYear ->
+            simulateYear model retirementAge (lastYear.age + 1) lastYear.endingBalance :: years
+
+        Nothing ->
+            [ simulateYear model retirementAge model.currentAge model.currentSavings ]
+
+
+simulateYear model retirementAge age startingBalance =
+    let
+        yearDeposits =
+            deposits model retirementAge age
+
+        yearWithdrawals =
+            withdrawals model retirementAge age
+
+        yearSsaIncome =
+            ssaIncome model age
+
+        yearMarketChange =
+            marketChange model startingBalance
+
+        endingBalance =
+            startingBalance
+                + yearDeposits
+                + yearSsaIncome
+                + yearMarketChange
+                - yearWithdrawals
+    in
+    { age = age
+    , endingBalance = endingBalance
+    , deposits = yearDeposits
+    , withdrawals = yearWithdrawals
+    , ssaIncome = yearSsaIncome
+    , marketChange = yearMarketChange
+    }
+
+
+marketChange model startingBalance =
+    toFloat startingBalance
         * model.annualYield
         |> round
 
 
-savings retirementAge model =
-    if model.currentAge < retirementAge then
+deposits model retirementAge age =
+    if age < retirementAge then
         model.annualSavings
 
     else
         0
 
 
-ssaIncome model =
-    if model.currentAge < model.socialSecurityIncomeStartAge then
+ssaIncome model age =
+    if age < model.socialSecurityIncomeStartAge then
         0
 
     else
         model.annualSocialSecurityIncome
 
 
-withdrawals retirementAge model =
-    if model.currentAge < retirementAge then
+withdrawals model retirementAge age =
+    if age < retirementAge then
         0
 
+    else if age < model.socialSecurityIncomeStartAge then
+        adjusted model age model.retirementIncome
+
     else
-        model.retirementIncome
+        adjusted model age (model.retirementIncome - model.annualSocialSecurityIncome)
+
+
+adjusted model age amount =
+    let
+        years =
+            toFloat (age - model.currentAge)
+    in
+    toFloat amount
+        * ((1.0 + model.inflation) ^ years)
+        |> round
