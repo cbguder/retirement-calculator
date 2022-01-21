@@ -1,13 +1,22 @@
 module Update exposing (update)
 
 import Maybe
-import Model exposing (Model)
+import Model exposing (Model, store)
 import Msg exposing (..)
 import String
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        newModel =
+            updateModel msg model
+    in
+    ( newModel, store newModel )
+
+
+updateModel : Msg -> Model -> Model
+updateModel msg model =
     case msg of
         CurrentAge value ->
             { model | currentAge = updateInt value }
