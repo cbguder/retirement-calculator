@@ -9,9 +9,19 @@
 </head>
 <body>
 	<div id="main"></div>
-	<script>
+	<script type="text/javascript">
+		const STORAGE_KEY = "retirement-calculator-model";
+
+		var storedState = localStorage.getItem(STORAGE_KEY);
+		var flags = storedState ? JSON.parse(storedState) : null;
+
 		var app = Elm.Main.init({
-			node: document.getElementById("main")
+			node: document.getElementById("main"),
+			flags: flags,
+		});
+
+		app.ports.setStorage.subscribe(function(state) {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 		});
 	</script>
 </body>

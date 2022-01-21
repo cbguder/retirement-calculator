@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.T.E === region.ae.E)
+	if (region.ab.E === region.ai.E)
 	{
-		return 'on line ' + region.T.E;
+		return 'on line ' + region.ab.E;
 	}
-	return 'on lines ' + region.T.E + ' through ' + region.ae.E;
+	return 'on lines ' + region.ab.E + ' through ' + region.ai.E;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a$,
-		impl.bd,
-		impl.ba,
+		impl.a_,
+		impl.bc,
+		impl.a9,
 		function() { return function() {} }
 	);
 });
@@ -2705,8 +2705,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		s: func(record.s),
-		V: record.V,
-		R: record.R
+		ad: record.ad,
+		X: record.X
 	}
 });
 
@@ -2975,10 +2975,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.s;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.V;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.ad;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.R) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.X) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3928,11 +3928,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a$,
-		impl.bd,
-		impl.ba,
+		impl.a_,
+		impl.bc,
+		impl.a9,
 		function(sendToApp, initialModel) {
-			var view = impl.be;
+			var view = impl.bd;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3964,12 +3964,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a$,
-		impl.bd,
-		impl.ba,
+		impl.a_,
+		impl.bc,
+		impl.a9,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.S && impl.S(sendToApp)
-			var view = impl.be;
+			var divertHrefToApp = impl.Z && impl.Z(sendToApp)
+			var view = impl.bd;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3977,12 +3977,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aS);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aR);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.bc) && (_VirtualDom_doc.title = title = doc.bc);
+				(title !== doc.bb) && (_VirtualDom_doc.title = title = doc.bb);
 			});
 		}
 	);
@@ -4038,12 +4038,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.a4;
-	var onUrlRequest = impl.a5;
+	var onUrlChange = impl.a3;
+	var onUrlRequest = impl.a4;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		S: function(sendToApp)
+		Z: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.ay === next.ay
-							&& curr.ai === next.ai
-							&& curr.au.a === next.au.a
+							&& curr.aA === next.aA
+							&& curr.am === next.am
+							&& curr.aw.a === next.aw.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4069,13 +4069,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		a$: function(flags)
+		a_: function(flags)
 		{
-			return A3(impl.a$, flags, _Browser_getUrl(), key);
+			return A3(impl.a_, flags, _Browser_getUrl(), key);
 		},
-		be: impl.be,
 		bd: impl.bd,
-		ba: impl.ba
+		bc: impl.bc,
+		a9: impl.a9
 	});
 }
 
@@ -4141,17 +4141,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aY: 'hidden', aU: 'visibilitychange' }
+		? { aX: 'hidden', aT: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aY: 'mozHidden', aU: 'mozvisibilitychange' }
+		? { aX: 'mozHidden', aT: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aY: 'msHidden', aU: 'msvisibilitychange' }
+		? { aX: 'msHidden', aT: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aY: 'webkitHidden', aU: 'webkitvisibilitychange' }
-		: { aY: 'hidden', aU: 'visibilitychange' };
+		? { aX: 'webkitHidden', aT: 'webkitvisibilitychange' }
+		: { aX: 'hidden', aT: 'visibilitychange' };
 }
 
 
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		aE: _Browser_getScene(),
-		aJ: {
-			aM: _Browser_window.pageXOffset,
-			aN: _Browser_window.pageYOffset,
-			aK: _Browser_doc.documentElement.clientWidth,
-			ah: _Browser_doc.documentElement.clientHeight
+		aF: _Browser_getScene(),
+		aI: {
+			aL: _Browser_window.pageXOffset,
+			aM: _Browser_window.pageYOffset,
+			aJ: _Browser_doc.documentElement.clientWidth,
+			al: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4247,8 +4247,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aK: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		ah: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aJ: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		al: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			aE: {
-				aK: node.scrollWidth,
-				ah: node.scrollHeight
+			aF: {
+				aJ: node.scrollWidth,
+				al: node.scrollHeight
 			},
-			aJ: {
-				aM: node.scrollLeft,
-				aN: node.scrollTop,
-				aK: node.clientWidth,
-				ah: node.clientHeight
+			aI: {
+				aL: node.scrollLeft,
+				aM: node.scrollTop,
+				aJ: node.clientWidth,
+				al: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			aE: _Browser_getScene(),
-			aJ: {
-				aM: x,
-				aN: y,
-				aK: _Browser_doc.documentElement.clientWidth,
-				ah: _Browser_doc.documentElement.clientHeight
+			aF: _Browser_getScene(),
+			aI: {
+				aL: x,
+				aM: y,
+				aJ: _Browser_doc.documentElement.clientWidth,
+				al: _Browser_doc.documentElement.clientHeight
 			},
-			aW: {
-				aM: x + rect.left,
-				aN: y + rect.top,
-				aK: rect.width,
-				ah: rect.height
+			aV: {
+				aL: x + rect.left,
+				aM: y + rect.top,
+				aJ: rect.width,
+				al: rect.height
 			}
 		};
 	});
@@ -4392,7 +4392,6 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
-var $author$project$Model$init = {X: 20000, Y: 40000, Z: 0.07, aa: 30, ab: 100000, aj: 0.02, am: 85, aD: 120000, aF: 67};
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$LT = 0;
@@ -4897,7 +4896,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ag: fragment, ai: host, as: path, au: port_, ay: protocol, az: query};
+		return {ak: fragment, am: host, au: path, aw: port_, aA: protocol, aB: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5175,27 +5174,127 @@ var $elm$core$Task$perform = F2(
 		return $elm$core$Task$command(
 			A2($elm$core$Task$map, toMessage, task));
 	});
+var $elm$browser$Browser$element = _Browser_element;
+var $elm$json$Json$Decode$decodeValue = _Json_run;
+var $author$project$Model$Model = F9(
+	function (inflation, annualYield, lifeExpectancy, currentAge, retirementIncome, currentSavings, annualSavings, ssaIncome, ssaIncomeStartAge) {
+		return {O: annualSavings, P: annualYield, Q: currentAge, R: currentSavings, S: inflation, T: lifeExpectancy, Y: retirementIncome, _: ssaIncome, aa: ssaIncomeStartAge};
+	});
+var $elm$json$Json$Decode$float = _Json_decodeFloat;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
+	function (key, valDecoder, decoder) {
+		return A2(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
+			A2($elm$json$Json$Decode$field, key, valDecoder),
+			decoder);
+	});
+var $author$project$Model$decoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'ssaIncomeStartAge',
+	$elm$json$Json$Decode$int,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'ssaIncome',
+		$elm$json$Json$Decode$int,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'annualSavings',
+			$elm$json$Json$Decode$int,
+			A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'currentSavings',
+				$elm$json$Json$Decode$int,
+				A3(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+					'retirementIncome',
+					$elm$json$Json$Decode$int,
+					A3(
+						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+						'currentAge',
+						$elm$json$Json$Decode$int,
+						A3(
+							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+							'lifeExpectancy',
+							$elm$json$Json$Decode$int,
+							A3(
+								$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+								'annualYield',
+								$elm$json$Json$Decode$float,
+								A3(
+									$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+									'inflation',
+									$elm$json$Json$Decode$float,
+									$elm$json$Json$Decode$succeed($author$project$Model$Model))))))))));
+var $author$project$Model$defaultModel = {O: 20000, P: 0.07, Q: 30, R: 100000, S: 0.02, T: 85, Y: 100000, _: 40000, aa: 67};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Model$init = function (flags) {
+	var _v0 = A2($elm$json$Json$Decode$decodeValue, $author$project$Model$decoder, flags);
+	if (!_v0.$) {
+		var model = _v0.a;
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	} else {
+		var err = _v0.a;
+		return _Utils_Tuple2($author$project$Model$defaultModel, $elm$core$Platform$Cmd$none);
+	}
+};
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $elm$browser$Browser$sandbox = function (impl) {
-	return _Browser_element(
-		{
-			a$: function (_v0) {
-				return _Utils_Tuple2(impl.a$, $elm$core$Platform$Cmd$none);
-			},
-			ba: function (_v1) {
-				return $elm$core$Platform$Sub$none;
-			},
-			bd: F2(
-				function (msg, model) {
-					return _Utils_Tuple2(
-						A2(impl.bd, msg, model),
-						$elm$core$Platform$Cmd$none);
+var $elm$json$Json$Encode$float = _Json_wrap;
+var $elm$json$Json$Encode$int = _Json_wrap;
+var $elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, obj) {
+					var k = _v0.a;
+					var v = _v0.b;
+					return A3(_Json_addField, k, v, obj);
 				}),
-			be: impl.be
-		});
+			_Json_emptyObject(0),
+			pairs));
+};
+var $author$project$Model$encode = function (model) {
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'inflation',
+				$elm$json$Json$Encode$float(model.S)),
+				_Utils_Tuple2(
+				'annualYield',
+				$elm$json$Json$Encode$float(model.P)),
+				_Utils_Tuple2(
+				'lifeExpectancy',
+				$elm$json$Json$Encode$int(model.T)),
+				_Utils_Tuple2(
+				'currentAge',
+				$elm$json$Json$Encode$int(model.Q)),
+				_Utils_Tuple2(
+				'retirementIncome',
+				$elm$json$Json$Encode$int(model.Y)),
+				_Utils_Tuple2(
+				'currentSavings',
+				$elm$json$Json$Encode$int(model.R)),
+				_Utils_Tuple2(
+				'annualSavings',
+				$elm$json$Json$Encode$int(model.O)),
+				_Utils_Tuple2(
+				'ssaIncome',
+				$elm$json$Json$Encode$int(model._)),
+				_Utils_Tuple2(
+				'ssaIncomeStartAge',
+				$elm$json$Json$Encode$int(model.aa))
+			]));
+};
+var $author$project$Model$setStorage = _Platform_outgoingPort('setStorage', $elm$core$Basics$identity);
+var $author$project$Model$store = function (model) {
+	return $author$project$Model$setStorage(
+		$author$project$Model$encode(model));
 };
 var $elm$core$String$toFloat = _String_toFloat;
 var $elm$core$Maybe$withDefault = F2(
@@ -5219,7 +5318,7 @@ var $author$project$Update$updateInt = function (value) {
 		0,
 		$elm$core$String$toInt(value));
 };
-var $author$project$Update$update = F2(
+var $author$project$Update$updateModel = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 0:
@@ -5227,66 +5326,74 @@ var $author$project$Update$update = F2(
 				return _Utils_update(
 					model,
 					{
-						aa: $author$project$Update$updateInt(value)
+						Q: $author$project$Update$updateInt(value)
 					});
 			case 1:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						am: $author$project$Update$updateInt(value)
+						T: $author$project$Update$updateInt(value)
 					});
 			case 2:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						ab: $author$project$Update$updateInt(value)
+						R: $author$project$Update$updateInt(value)
 					});
 			case 3:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						X: $author$project$Update$updateInt(value)
+						O: $author$project$Update$updateInt(value)
 					});
 			case 4:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						aD: $author$project$Update$updateInt(value)
+						Y: $author$project$Update$updateInt(value)
 					});
 			case 5:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						Y: $author$project$Update$updateInt(value)
+						_: $author$project$Update$updateInt(value)
 					});
 			case 6:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						aF: $author$project$Update$updateInt(value)
+						aa: $author$project$Update$updateInt(value)
 					});
 			case 7:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						aj: $author$project$Update$updateFloat(value)
+						S: $author$project$Update$updateFloat(value)
 					});
 			default:
 				var value = msg.a;
 				return _Utils_update(
 					model,
 					{
-						Z: $author$project$Update$updateFloat(value)
+						P: $author$project$Update$updateFloat(value)
 					});
 		}
 	});
+var $author$project$Update$update = F2(
+	function (msg, model) {
+		var newModel = A2($author$project$Update$updateModel, msg, model);
+		return _Utils_Tuple2(
+			newModel,
+			$author$project$Model$store(newModel));
+	});
+var $elm$json$Json$Decode$value = _Json_decodeValue;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5344,7 +5451,6 @@ var $elm$html$Html$Events$stopPropagationOn = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
@@ -5386,7 +5492,7 @@ var $author$project$View$inputField = function (field) {
 					[
 						$elm$html$Html$Attributes$id(field.e),
 						$elm$html$Html$Attributes$type_('number'),
-						$elm$html$Html$Attributes$step(field.U),
+						$elm$html$Html$Attributes$step(field.ac),
 						$elm$html$Html$Attributes$class('form-control'),
 						$elm$html$Html$Attributes$value(field.i),
 						$elm$html$Html$Events$onInput(field.h)
@@ -5410,7 +5516,7 @@ var $author$project$View$floatField = function (field) {
 			e: field.e,
 			g: field.g,
 			h: field.h,
-			U: '0.01',
+			ac: '0.01',
 			i: $elm$core$String$fromFloat(field.i)
 		});
 };
@@ -5421,7 +5527,7 @@ var $author$project$View$integerField = function (field) {
 			e: field.e,
 			g: field.g,
 			h: field.h,
-			U: '1',
+			ac: '1',
 			i: $elm$core$String$fromInt(field.i)
 		});
 };
@@ -5432,23 +5538,23 @@ var $author$project$View$inputForm = function (model) {
 		_List_fromArray(
 			[
 				$author$project$View$integerField(
-				{e: 'current-age', g: 'Current Age', h: $author$project$Msg$CurrentAge, i: model.aa}),
+				{e: 'current-age', g: 'Current Age', h: $author$project$Msg$CurrentAge, i: model.Q}),
 				$author$project$View$integerField(
-				{e: 'life-expectancy', g: 'Life Expectancy', h: $author$project$Msg$LifeExpectancy, i: model.am}),
+				{e: 'life-expectancy', g: 'Life Expectancy', h: $author$project$Msg$LifeExpectancy, i: model.T}),
 				$author$project$View$integerField(
-				{e: 'current-savings', g: 'Current Savings', h: $author$project$Msg$CurrentSavings, i: model.ab}),
+				{e: 'current-savings', g: 'Current Savings', h: $author$project$Msg$CurrentSavings, i: model.R}),
 				$author$project$View$integerField(
-				{e: 'annual-savings', g: 'Annual Savings', h: $author$project$Msg$AnnualSavings, i: model.X}),
+				{e: 'annual-savings', g: 'Annual Savings', h: $author$project$Msg$AnnualSavings, i: model.O}),
 				$author$project$View$integerField(
-				{e: 'retirement-income', g: 'Retirement Income', h: $author$project$Msg$RetirementIncome, i: model.aD}),
+				{e: 'retirement-income', g: 'Retirement Income', h: $author$project$Msg$RetirementIncome, i: model.Y}),
 				$author$project$View$integerField(
-				{e: 'ssa-income', g: 'Annual SSA Income', h: $author$project$Msg$SSAIncome, i: model.Y}),
+				{e: 'ssa-income', g: 'Annual SSA Income', h: $author$project$Msg$SSAIncome, i: model._}),
 				$author$project$View$integerField(
-				{e: 'ssa-age', g: 'SSA Income Starts at Age', h: $author$project$Msg$SSAIncomeStart, i: model.aF}),
+				{e: 'ssa-age', g: 'SSA Income Starts at Age', h: $author$project$Msg$SSAIncomeStart, i: model.aa}),
 				$author$project$View$floatField(
-				{e: 'inflation', g: 'Inflation', h: $author$project$Msg$Inflation, i: model.aj}),
+				{e: 'inflation', g: 'Inflation', h: $author$project$Msg$Inflation, i: model.S}),
 				$author$project$View$floatField(
-				{e: 'yield', g: 'Yield', h: $author$project$Msg$Yield, i: model.Z})
+				{e: 'yield', g: 'Yield', h: $author$project$Msg$Yield, i: model.P})
 			]));
 };
 var $elm$html$Html$span = _VirtualDom_node('span');
@@ -5456,7 +5562,7 @@ var $author$project$View$retirementAge = function (result) {
 	var retirementAgeText = function () {
 		if (!result.$) {
 			var aResult = result.a;
-			return $elm$core$String$fromInt(aResult.aC);
+			return $elm$core$String$fromInt(aResult.aE);
 		} else {
 			return '-';
 		}
@@ -5495,27 +5601,27 @@ var $elm$core$List$head = function (list) {
 };
 var $author$project$Retirement$deposits = F3(
 	function (model, retirementAge, age) {
-		return (_Utils_cmp(age, retirementAge) < 0) ? model.X : 0;
+		return (_Utils_cmp(age, retirementAge) < 0) ? model.O : 0;
 	});
 var $elm$core$Basics$round = _Basics_round;
 var $author$project$Retirement$marketChange = F2(
 	function (model, startingBalance) {
-		return $elm$core$Basics$round(startingBalance * model.Z);
+		return $elm$core$Basics$round(startingBalance * model.P);
 	});
 var $author$project$Retirement$ssaIncome = F2(
 	function (model, age) {
-		return (_Utils_cmp(age, model.aF) < 0) ? 0 : model.Y;
+		return (_Utils_cmp(age, model.aa) < 0) ? 0 : model._;
 	});
 var $elm$core$Basics$pow = _Basics_pow;
 var $author$project$Retirement$adjusted = F3(
 	function (model, age, amount) {
-		var years = age - model.aa;
+		var years = age - model.Q;
 		return $elm$core$Basics$round(
-			amount * A2($elm$core$Basics$pow, 1.0 + model.aj, years));
+			amount * A2($elm$core$Basics$pow, 1.0 + model.S, years));
 	});
 var $author$project$Retirement$withdrawals = F3(
 	function (model, retirementAge, age) {
-		return (_Utils_cmp(age, retirementAge) < 0) ? 0 : ((_Utils_cmp(age, model.aF) < 0) ? A3($author$project$Retirement$adjusted, model, age, model.aD) : A3($author$project$Retirement$adjusted, model, age, model.aD - model.Y));
+		return (_Utils_cmp(age, retirementAge) < 0) ? 0 : ((_Utils_cmp(age, model.aa) < 0) ? A3($author$project$Retirement$adjusted, model, age, model.Y) : A3($author$project$Retirement$adjusted, model, age, model.Y - model._));
 	});
 var $author$project$Retirement$simulateYear = F4(
 	function (model, retirementAge, age, startingBalance) {
@@ -5524,7 +5630,7 @@ var $author$project$Retirement$simulateYear = F4(
 		var yearMarketChange = A2($author$project$Retirement$marketChange, model, startingBalance);
 		var yearDeposits = A3($author$project$Retirement$deposits, model, retirementAge, age);
 		var endingBalance = (((startingBalance + yearDeposits) + yearSsaIncome) + yearMarketChange) - yearWithdrawals;
-		return {N: age, ad: yearDeposits, J: endingBalance, an: yearMarketChange, aG: yearSsaIncome, aL: yearWithdrawals};
+		return {N: age, ah: yearDeposits, J: endingBalance, ap: yearMarketChange, _: yearSsaIncome, aK: yearWithdrawals};
 	});
 var $author$project$Retirement$simulateYears = F3(
 	function (model, retirementAge, numYears) {
@@ -5539,7 +5645,7 @@ var $author$project$Retirement$simulateYears = F3(
 		} else {
 			return _List_fromArray(
 				[
-					A4($author$project$Retirement$simulateYear, model, retirementAge, model.aa, model.ab)
+					A4($author$project$Retirement$simulateYear, model, retirementAge, model.Q, model.R)
 				]);
 		}
 	});
@@ -5547,15 +5653,15 @@ var $author$project$Retirement$simulateWithRetirementAge = F2(
 	function (model, retirementAge) {
 		simulateWithRetirementAge:
 		while (true) {
-			var years = A3($author$project$Retirement$simulateYears, model, retirementAge, (model.am - model.aa) + 1);
+			var years = A3($author$project$Retirement$simulateYears, model, retirementAge, (model.T - model.Q) + 1);
 			var _v0 = $elm$core$List$head(years);
 			if (!_v0.$) {
 				var lastYear = _v0.a;
 				if (lastYear.J >= 0) {
 					return $elm$core$Maybe$Just(
 						{
-							aC: retirementAge,
-							aP: $elm$core$List$reverse(years)
+							aE: retirementAge,
+							aO: $elm$core$List$reverse(years)
 						});
 				} else {
 					var $temp$model = model,
@@ -5570,7 +5676,7 @@ var $author$project$Retirement$simulateWithRetirementAge = F2(
 		}
 	});
 var $author$project$Retirement$simulate = function (model) {
-	return A2($author$project$Retirement$simulateWithRetirementAge, model, model.aa);
+	return A2($author$project$Retirement$simulateWithRetirementAge, model, model.Q);
 };
 var $elm$html$Html$Attributes$scope = $elm$html$Html$Attributes$stringProperty('scope');
 var $elm$html$Html$table = _VirtualDom_node('table');
@@ -5578,7 +5684,7 @@ var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
 var $cuducos$elm_format_number$FormatNumber$Parser$FormattedNumber = F5(
 	function (original, integers, decimals, prefix, suffix) {
-		return {r: decimals, ak: integers, ar: original, K: prefix, L: suffix};
+		return {r: decimals, an: integers, at: original, K: prefix, L: suffix};
 	});
 var $cuducos$elm_format_number$FormatNumber$Parser$Negative = 2;
 var $cuducos$elm_format_number$FormatNumber$Parser$Positive = 0;
@@ -5607,9 +5713,9 @@ var $cuducos$elm_format_number$FormatNumber$Parser$classify = function (formatte
 		$elm$core$String$concat(
 			A2(
 				$elm$core$List$append,
-				formatted.ak,
+				formatted.an,
 				$elm$core$List$singleton(formatted.r))));
-	return onlyZeros ? 1 : ((formatted.ar < 0) ? 2 : 0);
+	return onlyZeros ? 1 : ((formatted.at < 0) ? 2 : 0);
 };
 var $elm$core$String$filter = _String_filter;
 var $elm$core$Basics$negate = function (n) {
@@ -6011,15 +6117,15 @@ var $cuducos$elm_format_number$FormatNumber$Parser$parse = F2(
 			case 2:
 				return _Utils_update(
 					partial,
-					{K: locale.a2, L: locale.P});
+					{K: locale.a1, L: locale.V});
 			case 0:
 				return _Utils_update(
 					partial,
-					{K: locale.a7, L: locale.av});
+					{K: locale.a6, L: locale.ax});
 			default:
 				return _Utils_update(
 					partial,
-					{K: locale.bg, L: locale.aQ});
+					{K: locale.bf, L: locale.aP});
 		}
 	});
 var $cuducos$elm_format_number$FormatNumber$Stringfy$formatDecimals = F2(
@@ -6029,7 +6135,7 @@ var $cuducos$elm_format_number$FormatNumber$Stringfy$formatDecimals = F2(
 var $cuducos$elm_format_number$FormatNumber$Stringfy$stringfy = F2(
 	function (locale, formatted) {
 		var stringfyDecimals = $cuducos$elm_format_number$FormatNumber$Stringfy$formatDecimals(locale);
-		var integers = A2($elm$core$String$join, locale.bb, formatted.ak);
+		var integers = A2($elm$core$String$join, locale.ba, formatted.an);
 		var decimals = stringfyDecimals(formatted.r);
 		return $elm$core$String$concat(
 			_List_fromArray(
@@ -6049,20 +6155,20 @@ var $cuducos$elm_format_number$FormatNumber$Locales$Western = 0;
 var $cuducos$elm_format_number$FormatNumber$Locales$base = {
 	v: '.',
 	r: $cuducos$elm_format_number$FormatNumber$Locales$Min(0),
-	a2: '−',
-	P: '',
-	a7: '',
-	av: '',
+	a1: '−',
+	V: '',
+	a6: '',
+	ax: '',
 	M: 0,
-	bb: '',
-	bg: '',
-	aQ: ''
+	ba: '',
+	bf: '',
+	aP: ''
 };
 var $author$project$View$locale = function () {
 	var base = $cuducos$elm_format_number$FormatNumber$Locales$base;
 	return _Utils_update(
 		base,
-		{a2: '$', a7: '$', bb: ',', bg: '$'});
+		{a1: '$', a6: '$', ba: ',', bf: '$'});
 }();
 var $author$project$View$formatCurrency = function (amount) {
 	return A2($cuducos$elm_format_number$FormatNumber$format, $author$project$View$locale, amount);
@@ -6091,7 +6197,7 @@ var $author$project$View$yearRow = function (year) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						$author$project$View$formatCurrency(year.ad))
+						$author$project$View$formatCurrency(year.ah))
 					])),
 				A2(
 				$elm$html$Html$td,
@@ -6102,7 +6208,7 @@ var $author$project$View$yearRow = function (year) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						$author$project$View$formatCurrency(year.an))
+						$author$project$View$formatCurrency(year.ap))
 					])),
 				A2(
 				$elm$html$Html$td,
@@ -6113,7 +6219,7 @@ var $author$project$View$yearRow = function (year) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						$author$project$View$formatCurrency(year.aG))
+						$author$project$View$formatCurrency(year._))
 					])),
 				A2(
 				$elm$html$Html$td,
@@ -6124,7 +6230,7 @@ var $author$project$View$yearRow = function (year) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						$author$project$View$formatCurrency(year.aL))
+						$author$project$View$formatCurrency(year.aK))
 					])),
 				A2(
 				$elm$html$Html$td,
@@ -6143,7 +6249,7 @@ var $author$project$View$yearsTable = function (result) {
 	var years = function () {
 		if (!result.$) {
 			var aResult = result.a;
-			return aResult.aP;
+			return aResult.aO;
 		} else {
 			return _List_Nil;
 		}
@@ -6281,7 +6387,13 @@ var $author$project$View$view = function (model) {
 					]))
 			]));
 };
-var $author$project$Main$main = $elm$browser$Browser$sandbox(
-	{a$: $author$project$Model$init, bd: $author$project$Update$update, be: $author$project$View$view});
-_Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
+var $author$project$Main$main = $elm$browser$Browser$element(
+	{
+		a_: $author$project$Model$init,
+		a9: function (_v0) {
+			return $elm$core$Platform$Sub$none;
+		},
+		bc: $author$project$Update$update,
+		bd: $author$project$View$view
+	});
+_Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));
