@@ -25,10 +25,10 @@ update msg model =
             { model | retirementIncome = updateInt value }
 
         SSAIncome value ->
-            { model | annualSocialSecurityIncome = updateInt value }
+            { model | ssaIncome = updateInt value }
 
         SSAIncomeStart value ->
-            { model | socialSecurityIncomeStartAge = updateInt value }
+            { model | ssaIncomeStartAge = updateInt value }
 
         Inflation value ->
             { model | inflation = updateFloat value }

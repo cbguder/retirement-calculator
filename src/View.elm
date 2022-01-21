@@ -33,8 +33,8 @@ inputForm model =
         , integerField { id = "current-savings", label = "Current Savings", value = model.currentSavings, msg = CurrentSavings }
         , integerField { id = "annual-savings", label = "Annual Savings", value = model.annualSavings, msg = AnnualSavings }
         , integerField { id = "retirement-income", label = "Retirement Income", value = model.retirementIncome, msg = RetirementIncome }
-        , integerField { id = "ssa-income", label = "Annual SSA Income", value = model.annualSocialSecurityIncome, msg = SSAIncome }
-        , integerField { id = "ssa-age", label = "SSA Income Starts at Age", value = model.socialSecurityIncomeStartAge, msg = SSAIncomeStart }
+        , integerField { id = "ssa-income", label = "Annual SSA Income", value = model.ssaIncome, msg = SSAIncome }
+        , integerField { id = "ssa-age", label = "SSA Income Starts at Age", value = model.ssaIncomeStartAge, msg = SSAIncomeStart }
         , floatField { id = "inflation", label = "Inflation", value = model.inflation, msg = Inflation }
         , floatField { id = "yield", label = "Yield", value = model.annualYield, msg = Yield }
         ]

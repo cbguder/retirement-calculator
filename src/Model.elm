@@ -9,8 +9,8 @@ type alias Model =
     , retirementIncome : Int
     , currentSavings : Int
     , annualSavings : Int
-    , annualSocialSecurityIncome : Int
-    , socialSecurityIncomeStartAge : Int
+    , ssaIncome : Int
+    , ssaIncomeStartAge : Int
     }
 
 
@@ -23,6 +23,6 @@ init =
     , retirementIncome = 120000
     , currentSavings = 100000
     , annualSavings = 20000
-    , annualSocialSecurityIncome = 40000
-    , socialSecurityIncomeStartAge = 67
+    , ssaIncome = 40000
+    , ssaIncomeStartAge = 67
     }

@@ -108,22 +108,22 @@ deposits model retirementAge age =
 
 
 ssaIncome model age =
-    if age < model.socialSecurityIncomeStartAge then
+    if age < model.ssaIncomeStartAge then
         0
 
     else
-        model.annualSocialSecurityIncome
+        model.ssaIncome
 
 
 withdrawals model retirementAge age =
     if age < retirementAge then
         0
 
-    else if age < model.socialSecurityIncomeStartAge then
+    else if age < model.ssaIncomeStartAge then
         adjusted model age model.retirementIncome
 
     else
-        adjusted model age (model.retirementIncome - model.annualSocialSecurityIncome)
+        adjusted model age (model.retirementIncome - model.ssaIncome)
 
 
 adjusted model age amount =
