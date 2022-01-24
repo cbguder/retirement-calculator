@@ -7,7 +7,7 @@ import Html.Attributes exposing (class, for, id, scope, step, type_, value)
 import Html.Events exposing (onInput)
 import Model exposing (Model)
 import Msg exposing (..)
-import Retirement exposing (Year)
+import Retirement
 
 
 view : Model -> Html Msg

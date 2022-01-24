@@ -28,7 +28,7 @@ init flags =
         Ok model ->
             ( model, Cmd.none )
 
-        Err err ->
+        Err _ ->
             ( defaultModel, Cmd.none )
 
 
