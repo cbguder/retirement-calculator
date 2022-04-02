@@ -5237,7 +5237,6 @@ var $author$project$Model$init = function (flags) {
 		var model = _v0.a;
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	} else {
-		var err = _v0.a;
 		return _Utils_Tuple2($author$project$Model$defaultModel, $elm$core$Platform$Cmd$none);
 	}
 };
